@@ -1,0 +1,27 @@
+
+import Koa from 'koa';
+import Router from 'koa-router';
+import bodyParser from 'koa-bodyparser';
+import falconRouter from './routers/falcon';
+import ldRouter from './routers/lion-design';
+import buRouter from './routers/branch-update';
+import logger from './plugins/logger';
+
+const app = new Koa();
+const appRouter = new Router();
+const PORT = 8087;
+
+// 根路由
+appRouter.get('/', async(ctx, next) => {
+    await next()
+});
+
+app.use(bodyParser());
+app.use(logger());
+app.use(falconRouter.routes());
+app.use(ldRouter.routes());
+app.use(buRouter.routes());
+app.use(appRouter.routes());
+app.listen(PORT, (err) => {
+    console.log(`please open http://127.0.0.1:${PORT}`);
+})
