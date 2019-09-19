@@ -38,11 +38,11 @@ ${object_attributes.description}
     }
 }
 
-router.get('/bluesea-front/dev', async (ctx) => {
+router.get('/git-notify/maste', async (ctx) => {
     ctx.response.body = 'you need access dev[post]';
 })
 
-router.post('/bluesea-front/dev', async (ctx) => {
+router.post('/git-notify/master', async (ctx) => {
     const body = ctx.request.body
     if (body && body.object_kind) {
         switch (body.object_kind) {
