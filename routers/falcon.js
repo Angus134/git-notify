@@ -38,7 +38,7 @@ ${object_attributes.description}
     }
 }
 
-router.get('/git-notify/maste', async (ctx) => {
+router.get('/git-notify/master', async (ctx) => {
     ctx.response.body = 'you need access dev[post]';
 })
 
@@ -57,6 +57,9 @@ router.post('/git-notify/master', async (ctx) => {
                 }
                 break;
             case 'note':
+                sendMsg2DingTalk(commentEventMsg(body))
+                break;
+            case 'push':
                 sendMsg2DingTalk(commentEventMsg(body))
                 break;
             default:
