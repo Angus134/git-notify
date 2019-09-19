@@ -16,6 +16,7 @@ export function sendMsg2DingTalk(message, token = accessToken) { // 通知钉钉
         }
     }
     const postData = JSON.stringify(data)
+    console.log(postData, 'postData')
     const options = {
         hostname: 'oapi.dingtalk.com',
         port: 443,
@@ -28,7 +29,9 @@ export function sendMsg2DingTalk(message, token = accessToken) { // 通知钉钉
     };
     const req = https.request(options, (res) => {
         res.setEncoding('utf-8');
-        res.on('data', (chunk) => {});
+        res.on('data', (chunk) => {
+            console.log(res, chunk)
+        });
         res.on('end', () => {
             console.log('No more data in response.');
         });
