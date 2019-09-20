@@ -46,26 +46,9 @@ router.get('/git-notify/master', async (ctx) => {
 router.post('/git-notify/master', async (ctx) => {
     const body = ctx.request.body
     console.info(body, '****')
-    <!-- if (body && body.object_kind) {
-        switch (body.object_kind) {
-            case 'merge_request':
-                {
-                    // executeShell('sh', ['./shell.sh'], (text) => { console.log(text) })
-                    sendMsg2DingTalk(mergeEventMsg(body))
-                    jenkins.triggerSomething(body);
-                    writeFile(body)
-                }
-                break;
-            case 'note':
-                sendMsg2DingTalk(commentEventMsg(body))
-                break;
-            case 'push':
-                sendMsg2DingTalk(commentEventMsg(body))
-                break;
-            default:
-                break
-        }
-    } -->
+    if (body) {
+        sendMsg2DingTalk(commentEventMsg(body))
+    }
     ctx.response.body = 'ok';
 })
 
