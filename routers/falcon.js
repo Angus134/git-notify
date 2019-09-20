@@ -38,11 +38,12 @@ ${object_attributes.description}
     }
 }
 
-router.get('/git-notify/master', async (ctx) => {
+router.get('/', async (ctx) => {
+    console.info('ctx')
     ctx.response.body = 'you need access dev[post]';
 })
 
-router.post('/git-notify/master', async (ctx) => {
+router.post('/', async (ctx) => {
     const body = ctx.request.body
     if (body && body.object_kind) {
         switch (body.object_kind) {
