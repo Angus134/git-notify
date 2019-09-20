@@ -38,17 +38,15 @@ ${object_attributes.description}
     }
 }
 
-router.get('/', async (ctx) => {
+router.get('/git-notify/master', async (ctx) => {
     console.info('ctx')
     ctx.response.body = 'you need access dev[post]';
 })
 
-router.post('/', async (ctx) => {
+router.post('/git-notify/master', async (ctx) => {
     const body = ctx.request.body
     if (body && body.object_kind) {
         switch (body.object_kind) {
-            // case 'push': executeShell('sh', ['./shell.sh'], (text) => { console.log(text) })
-            // break;
             case 'merge_request':
                 {
                     // executeShell('sh', ['./shell.sh'], (text) => { console.log(text) })
