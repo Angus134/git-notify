@@ -6,7 +6,6 @@ import https from 'https';
 
 // FrontEnd DLP & DP Notice test
 const accessToken = '959b431b88fca903411f2c712a3776ec374e74839f48071df8524af8e31a1541';
-
 export function sendMsg2DingTalk(message, token = accessToken) { // 通知钉钉机器人
     const dingPath = `/robot/send?access_token=${token}`;
     const data = {

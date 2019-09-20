@@ -46,7 +46,7 @@ router.get('/git-notify/master', async (ctx) => {
 router.post('/git-notify/master', async (ctx) => {
     const body = ctx.request.body
     console.info(body, '****')
-    if (body && body.object_kind) {
+    <!-- if (body && body.object_kind) {
         switch (body.object_kind) {
             case 'merge_request':
                 {
@@ -65,7 +65,7 @@ router.post('/git-notify/master', async (ctx) => {
             default:
                 break
         }
-    }
+    } -->
     ctx.response.body = 'ok';
 })
 
