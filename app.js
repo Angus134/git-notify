@@ -16,7 +16,7 @@ appRouter.get('/', async(ctx, next) => {
 });
 
 app.use(bodyParser());
-// app.use(logger());
+app.use(logger());
 app.use(falconRouter.routes());
 app.use(buRouter.routes());
 app.use(appRouter.routes());
