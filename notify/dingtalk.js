@@ -1,9 +1,5 @@
 
 import https from 'https';
-
-// falcon bluesea-front notify
-// const accessToken = 'a6efca0c13711d16b87cb5c7604262f9043f9ffce6edbafb091327d54bcb808b';
-
 // FrontEnd DLP & DP Notice test
 const accessToken = '959b431b88fca903411f2c712a3776ec374e74839f48071df8524af8e31a1541';
 export function sendMsg2DingTalk(message, token = accessToken) { // 通知钉钉机器人

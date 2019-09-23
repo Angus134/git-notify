@@ -38,36 +38,31 @@ ${object_attributes.description}
     }
 }
 
-router.get('/git-notify/master', async (ctx) => {
-    console.info('ctx')
+router.get('/git-notify/master1', async (ctx) => {
     ctx.response.body = 'you need access dev[post]';
 })
 
-router.post('/git-notify/master', async (ctx) => {
+router.post('/git-notify/master1', async (ctx) => {
     const body = ctx.request.body
     console.info(body, '****')
-    if (body) {
-        sendMsg2DingTalk(commentEventMsg(body))
+    if (body && body.object_kind) {
+        switch (body.object_kind) {
+            case 'push': executeShell('sh', ['./shell.sh'], (text) => { console.log(text) })
+              break;
+            case 'merge_request':
+                {
+                    sendMsg2DingTalk(mergeEventMsg(body))
+                    writeFile(body)
+                }
+                break;
+            case 'note':
+                sendMsg2DingTalk(commentEventMsg(body))
+                break;
+            default:
+                break
+        }
     }
     ctx.response.body = 'ok';
 })
-
-// Merge LOG  路由 
-router.get('/log', async (ctx, next) => {
-    ctx.response.body = marked(fs.readFileSync('log.txt', 'utf-8'))
-    await next()
-})
-
-router.post('/signin', async (ctx, next) => {
-    var name = ctx.request.body.name || '',
-        password = ctx.request.body.password || '';
-    console.log(`signin with name: ${name}, password: ${password}`);
-    if (name === 'admin' && password === 'front') {
-        ctx.response.body = `<a href='/bushu4'>${'.4 部署'}!</h1>`;
-    } else {
-        ctx.response.body = `<h1>Login failed!</h1>
-        <p><a href="/">Try again</a></p>`;
-    }
-});
 
 export default router;

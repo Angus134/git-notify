@@ -5,18 +5,17 @@ import {
     sendMsg2DingTalk
 } from '../notify/dingtalk';
 import {
+    commentEventMsg,
     branchUpdateMergeEventMsg,
     branchUpdateCommitEventMsg
 } from '../notify/message';
-
-// 默认向Git通知群发送消息
-const accessToken = 'd793910db09fc95e9cd55d7c6a7651105a8a57020f1b0899dc1aea3dff01743b';
+// 钉钉通知群
+const accessToken = '959b431b88fca903411f2c712a3776ec374e74839f48071df8524af8e31a1541';
 
 function checkBranch (branch) {
     if (branch === 'master') return true;
-    if (branch === 'trunk') return true;
-    if (branch.startsWith('dev-v')) return true;
-    if (branch.startsWith('test-v')) return true;
+    if (branch.startsWith('dev')) return true;
+    if (branch.startsWith('hot-fix')) return true;
     return false;
 }
 
@@ -41,6 +40,9 @@ router.post('/branch-update/webhook', async (ctx) => {
                     sendMsg2DingTalk(branchUpdateCommitEventMsg(body), accessToken);
                 }
                 break;
+            case 'note':
+            sendMsg2DingTalk(commentEventMsg(body))
+                break;    
             default:
                 break
         }
