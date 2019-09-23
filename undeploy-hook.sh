@@ -1,1 +1,1 @@
-pm2 delete hook-center
+pm2 delete git-notify

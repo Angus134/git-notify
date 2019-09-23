@@ -1,7 +1,7 @@
 
-## hook-center
+## git-notify
 
-### hahaha1124655566
+### 
 
 
 ### 软件版本要求
@@ -12,6 +12,6 @@
 `sh deploy-hook.sh`
 
     部署机器及位置:
-    IP: 172.28.49.2
-    文件位置：/data0/tudeju/gitlab-hook
+    IP: 49.232.175.25
+    文件位置：/root/git-notify
 

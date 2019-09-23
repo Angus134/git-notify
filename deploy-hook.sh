@@ -1,4 +1,4 @@
 #!/bin/bash
 
 yarn install
-pm2 start npm --name="hook-center" -- start
+pm2 start npm --name="git-notify" -- start
