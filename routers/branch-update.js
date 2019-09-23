@@ -28,18 +28,17 @@ router.post('/branch-update/webhook', async (ctx) => {
     if (body && body.object_kind) {
         switch (body.object_kind) {
             case 'merge_request':
-                if (body.object_attributes.merge_status === 'can_be_merged' &&
-                    checkBranch(body.object_attributes.target_branch)) {
+                if (checkBranch(body.object_attributes.target_branch)) {
                     console.log('need notify');
                     sendMsg2DingTalk(branchUpdateMergeEventMsg(body), accessToken);
                 }
                 break;
-            case 'push':
-                if (checkBranch(body.ref.split('/').reverse()[0])) {
-                    console.log('need notify');
-                    sendMsg2DingTalk(branchUpdateCommitEventMsg(body), accessToken);
-                }
-                break;
+            // case 'push':
+            //     if (checkBranch(body.ref.split('/').reverse()[0])) {
+            //         console.log('need notify');
+            //         sendMsg2DingTalk(branchUpdateCommitEventMsg(body), accessToken);
+            //     }
+            //     break;
             case 'note':
             sendMsg2DingTalk(commentEventMsg(body))
                 break;    

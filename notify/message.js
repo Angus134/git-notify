@@ -12,7 +12,7 @@ export function mergeEventMsg(body) {
 事件:\t\t\t\t${'合并请求'}
 状态：\t\t\t\t${object_attributes.merge_status}
 请求名称:\t\t${object_attributes.title} 
-操作人:\t\t\t${user.user_username}
+操作人:\t\t\t${user.username}
 合并来源:\t\t${object_attributes.source_branch}
 合并目标:\t\t${object_attributes.target_branch}
 创建时间:\t\t${moment( +new Date(object_attributes.created_at)).format('YYYY-MM-DD HH:mm')}
@@ -33,42 +33,16 @@ export function commentEventMsg(body) {
     const {
         object_kind,
         user,
+        author,
         object_attributes,
         merge_request
     } = body
-    let diff = '';
-    let notifyMsg = ''
-    const type = object_attributes.noteable_type
-    if (type !== 'Commit') {
-        notifyMsg = `Notice:
-事件:\t\t\t\t${'MergeRequest changes note '}
-Comment:\t\t${object_attributes.note}
-Note Type:\t${object_attributes.noteable_type} 
-操作人:\t\t\t${user.user_username}
-创建时间:\t\t${moment(+new Date(object_attributes.created_at)).format('YYYY-MM-DD HH:mm')}
-更新时间:\t\t${moment(+new Date(object_attributes.updated_at)).format('YYYY-MM-DD HH:mm')}
-原始合并请求信息：
-    Target Brahch: \t\t${merge_request.target_branch}
-    Source Branch: \t\t${merge_request.source_branch}
---------------------------
-最后提交信息：
-  ID:   \t\t${merge_request.last_commit.id}
-  Message:\t${merge_request.last_commit.message}
---------------------------
+    const notifyMsg = `名称: ${merge_request.title}
+Hi～${merge_request.last_commit.author.name},|${user.username}|评论了你:\t\t${object_attributes.note}
+地址:\t\t\t${object_attributes.url}
+时间:\t\t${moment(+new Date(object_attributes.updated_at)).format('YYYY-MM-DD HH:mm')}
     `
-        if (object_attributes && object_attributes.st_diff) {
-            diff =
-                `--------------------------
-Url:\t\t\t${merge_request.last_commit.url}
---------------------------`
-        }
-    }
-    const commonNote = `
-事件:\t\t\t${'Common commits note'}
-Comment:\t${object_attributes.note}
-Url:\t\t${object_attributes.url}`
-
-    return type === 'MergeRequest' ? notifyMsg + diff : commonNote
+    return notifyMsg
 }
 
 
@@ -77,15 +51,47 @@ export function branchUpdateMergeEventMsg(body) {
     const {
         object_kind,
         user,
-        object_attributes
+        object_attributes,
+        author,
+        assignee
     } = body
-    const notifyMsg = `Branch Update Notice
-项目:\t\t${object_attributes.source.name}
-事件:\t\t${object_attributes.target_branch}更新
-操作:\t\t${user.user_username}
-提交:\t\t${object_attributes.last_commit.author.name}
-时间:\t\t${moment(+new Date(object_attributes.updated_at)).format('YYYY-MM-DD HH:mm')}
-描述:\t\t${object_attributes.description} `
+    let assigneeObj = assignee
+    if(!assigneeObj) assigneeObj = { username: '暂未指定人员'}
+    let notifyMsg = ''
+    const action = object_attributes.action
+    if (action === 'merge') {
+        notifyMsg = `@${user.username}, ${assigneeObj.username}已经帮你合并了代码～
+        名称:${object_attributes.title}
+        地址:${object_attributes.url}
+        时间:${moment(+new Date(object_attributes.updated_at)).format('YYYY-MM-DD HH:mm')}`
+    } else if (action === 'open') {
+        notifyMsg = `
+@${assigneeObj.username}, ${user.username}喊你帮忙review代码啦～
+地址:${object_attributes.url}
+项目:${object_attributes.source.name}
+事件:${object_attributes.target_branch}更新
+操作:${user.username}
+提交:${object_attributes.last_commit.author.name}
+时间:${moment(+new Date(object_attributes.updated_at)).format('YYYY-MM-DD HH:mm')}
+描述:${object_attributes.description} `
+    } else if (action === 'close'){
+        notifyMsg = `${object_attributes.last_commit.author.name}关闭了该合并请求 「${object_attributes.title}」～
+        名称:${object_attributes.title}
+        地址:${object_attributes.url}
+        时间:${moment(+new Date(object_attributes.updated_at)).format('YYYY-MM-DD HH:mm')}`
+    } else if (action === 'reopen') {
+        notifyMsg = ` ${object_attributes.last_commit.author.name}重新打开了该合并请求「${object_attributes.title}」～
+        名称:${object_attributes.title}
+        地址:${object_attributes.url}
+        时间:${moment(+new Date(object_attributes.updated_at)).format('YYYY-MM-DD HH:mm')}`
+    } else {
+        notifyMsg = `
+        @${assigneeObj.username}, 新的更改已经提交～
+        名称:${object_attributes.title}
+        更新:${object_attributes.last_commit.url}
+        地址:${object_attributes.url}
+        时间:${moment(+new Date(object_attributes.updated_at)).format('YYYY-MM-DD HH:mm')}`
+    }
     return notifyMsg;
 }
 
@@ -97,10 +103,10 @@ export function branchUpdateCommitEventMsg(body) {
         user,
         project
     } = body
-    const notifyMsg = `Branch Update Notice
+    const notifyMsg = `
 项目:\t\t${project.name}
 事件:\t\t${body.ref.split('/').reverse()[0]}分支更新
-操作:\t\t${body.user_username}
+操作:\t\t${body.username}
 描述:\t\t${body.total_commits_count}个commit提交
 最后更新:\t\t${commits[commits.length - 1].url}`
     return notifyMsg;
