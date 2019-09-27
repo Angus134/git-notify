@@ -1,13 +1,26 @@
 
 import https from 'https';
 // FrontEnd DLP & DP Notice test
-const accessToken = '959b431b88fca903411f2c712a3776ec374e74839f48071df8524af8e31a1541';
+const accessToken = '783b9756c9c5c8bd2507bf7ed0278a9b0ced58d26d9ecf6a51a31622c3c2b124';
 export function sendMsg2DingTalk(message, token = accessToken) { // 通知钉钉机器人
+    // @成员需要手机号
+    const members = {
+        wangjia: '18618239312',
+        danfeng: '15091675108',
+        shumei: '13522749761',
+        wuping: '17610613629'
+    }
     const dingPath = `/robot/send?access_token=${token}`;
     const data = {
         msgtype: 'text',
         text: {
             content: message
+        },
+        at: {
+            "atMobiles": [
+            members.wuping
+            ], 
+            "isAtAll": false
         }
     }
     const postData = JSON.stringify(data)
@@ -19,6 +32,7 @@ export function sendMsg2DingTalk(message, token = accessToken) { // 通知钉钉
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
+            
             'Content-Length': Buffer.byteLength(postData),
         }
     };
