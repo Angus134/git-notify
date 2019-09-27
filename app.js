@@ -2,7 +2,6 @@
 import Koa from 'koa';
 import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
-import falconRouter from './routers/falcon';
 import buRouter from './routers/branch-update';
 import logger from './plugins/logger';
 
@@ -17,7 +16,6 @@ appRouter.get('/', async(ctx, next) => {
 
 app.use(bodyParser());
 app.use(logger());
-app.use(falconRouter.routes());
 app.use(buRouter.routes());
 app.use(appRouter.routes());
 app.listen(PORT, (err) => {

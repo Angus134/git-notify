@@ -5,10 +5,7 @@ const accessToken = '783b9756c9c5c8bd2507bf7ed0278a9b0ced58d26d9ecf6a51a31622c3c
 export function sendMsg2DingTalk(message, token = accessToken) { // 通知钉钉机器人
     // @成员需要手机号
     const members = {
-        wangjia: '18618239312',
-        danfeng: '15091675108',
-        shumei: '13522749761',
-        wuping: '17610613629'
+        user: '100000101010'
     }
     const dingPath = `/robot/send?access_token=${token}`;
     const data = {
@@ -32,7 +29,7 @@ export function sendMsg2DingTalk(message, token = accessToken) { // 通知钉钉
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
-            
+
             'Content-Length': Buffer.byteLength(postData),
         }
     };
