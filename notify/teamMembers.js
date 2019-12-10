@@ -1,31 +1,16 @@
-const webTeam = {
-    JIA: '王佳',
-    FENG: '丹凤',
-    MEI: '淑美',
-    PING: '吴平',
-    HAO: '陈浩',
-    NGUS: '吴平',
+const team1 = {
+    zhangsan: '张三'
 }
-const winTeam = {
-    JIA: '王佳',
-    FENG: '丹凤',
-    MEI: '淑美',
-    PING: '吴平',
-    HAO: '陈浩',
-    NGUS: '吴平',
+const team2 = {
+  zhangsan: '张三'
 }
-const macTeam = {
-    JIA: '王佳',
-    FENG: '丹凤',
-    MEI: '淑美',
-    PING: '吴平',
-    HAO: '陈浩',
-    NGUS: '吴平',
+const team3 = {
+  zhangsan: '张三'
 }
 const team = {
-  windows: winTeam,
-  mac: macTeam,
-  web: webTeam
+  team1,
+  team2,
+  team3
 }
 // 根据组别映射名称
 export default function mappingMembers(teamName) {

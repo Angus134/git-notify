@@ -57,7 +57,7 @@ ${user.username}|${text}:\t\t${object_attributes.note}
 function formatName(username_string) {
     // 根据组别将英文名映射成中文名
     // mappingMembers
-    const membersName = mappingMembers('web')
+    const membersName = mappingMembers('team1')
     for (let key in membersName) {
         if (username_string.toUpperCase().indexOf(key) !== -1) {
             return membersName[key]

@@ -10,8 +10,7 @@ import {
     branchUpdateCommitEventMsg
 } from '../notify/message';
 // 钉钉通知群
-// const accessToken = '17ccb4edf2a916d88731a814e558d56efaf493f70e9020761bd2ae0f5759f1f8'; // 啦啦啦测试群
-const accessToken = 'db1310928c16d4f7a7aa12b7fbb905e2cc5b42557b6e7d233265f07044fbf585'; // web消息通知群
+const accessToken = 'db6310928c16d4f7a7aa12b7fbb935e2cc5b42557b6e1d233265f07044fbf55'; // 消息通知群 替换成你的机器人tokens
 function checkBranch (branch) {
     if (branch === 'master') return true;
     if (branch.startsWith('dev')) return true;
@@ -37,12 +36,11 @@ router.post('/branch-update/webhook', async (ctx) => {
             case 'merge_request':
                 sendMsg2DingTalk(branchUpdateMergeEventMsg(body), accessToken);
                 break;
-            // case 'push':
-            //     if (checkBranch(body.ref.split('/').reverse()[0])) {
-            //         console.log('need notify');
-            //         sendMsg2DingTalk(branchUpdateCommitEventMsg(body), accessToken);
-            //     }
-            //     break;
+            case 'push':
+                if (checkBranch(body.ref.split('/').reverse()[0])) {
+                    sendMsg2DingTalk(branchUpdateCommitEventMsg(body), accessToken);
+                }
+                break;
             case 'note':
             sendMsg2DingTalk(commentEventMsg(body), accessToken)
                 break;
