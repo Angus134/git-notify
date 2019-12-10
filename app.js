@@ -7,7 +7,7 @@ import logger from './plugins/logger';
 
 const app = new Koa();
 const appRouter = new Router();
-const PORT = 8087;
+const PORT = 8887;
 
 // 根路由 测试添加一行
 appRouter.get('/', async(ctx, next) => {
