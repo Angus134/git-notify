@@ -34,7 +34,7 @@
     "koa-bodyparser": "^4.2.0",
     "koa-log-requests": "https://github.com/alphalion-tool/koa-log-requests",
     "koa-router": "^7.3.0",
-    "marked": "^0.3.9",
+    "marked": "^4.0.10",
     "moment": "^2.19.3",
     "request": "^2.85.0"
   }
